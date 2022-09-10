@@ -199,7 +199,46 @@ Esto también es trasladable a nuestra aplicación.
 - Con eso code solicito el access_token 
 - Puedo hacer refresh a partir de ahí desde backchannel
 
+
+## Perfeccionando Code flow con PKCE
+
+![](./img/codepkce_diagramacompleto.png)
+
+ - Es una extensión de code
+ - Se agrega un "challenge" al solicitar el código
+ - El código de retorno está tratado con un algorítmo (+ un seed o clave) acordado en el challenge
+ - No es posible utilizar el código sin sabe el dato inicial
+ - Éste es el método más recomendado hoy en día para este tipo de escenarios
+
 ## ¿Cómo hacemos para usar oAuth con interacción del usuario sino tenemos un navegador?
+
+
+
+# ¿Y qué hay de la autenticación?
+
+ - oAuth no provee un mecanismo para obtener información sobre el usuario
+ - Open Id connect funciona sobre oAuth que provee varias cosas
+ - Endpoints redefinidos para obtención de token, datos de usuario y discovery
+ - Scopes predefinidos
+
+## OIDC
+
+![](./img/oidclogo.png)
+
+- OpendID Connect es un protocolo desarrollado sobre oAuth2 que provee capacidades de autenticación y varias utilidades.
+- Lo más común es que se confundan / intercambien los nombres OIDC / oAuth ya que uno depende del otro y hoy en día es raro ver que un sistema utilice oAuth y no OIDC.
+
+### Discovery endpoint
+
+- /.well-know/openid-configuration
+- Retorna la información sobre el resto de endpoints
+- Datos como scopes soportados
+- Agregar scope open_id, profile, email
+- Agrega un nuevo token id_token
+- La información extra se recibe como claims en el nuevo token
+- Aparece el concent ya que compartimos datos
+
+![](./img/concent.png)
 
 
 # Referencias
