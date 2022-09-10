@@ -66,4 +66,145 @@ Para el mismo caso de Yelp queriendo acceder a nuestros contactos de Gmail vamos
 - Por tiempo indefinido
 - De hecho, para Yahoo es yo mismo
 
+### Escenario deseado:
+
+ - Otorgar acceso sin exponer nuestras credenciales
+ - Que este acceso sea limitado a un grupo de recursos
+ - Que el tiempo de duración de este acceso sea limitado
+ - Que en caso de comprometerse ese método de acceso el daño sea el menor posible
+
+---
+
+![](./img/diagramaaccesonombres.png)
+
+---
+
+![](./img/diagramaaccesoyelpflujo.png)
+
+---
+
+![](./img/oauth1.png)
+
+
+### Esto es uno de los "flujos" o "grants" que oAuth ofrece para autorización.
+
+## ¿Y Qué es un Token?
+
+Es un trozo de información, en nuestro caso vamos a utilizar un formato conocido como JSON Web token o JWT
+
+### JWT
+
+- En un conjunto de información
+- Es otorgado por el Auth Server
+- Tiene 3 bloques: Header, Payload y Signature
+- Tiene un vencimiento
+- Indica los accesos (scopes)
+- Pueden ser Self encoded
+- Puede incluir un código para refrescar el vencimiento con un nuevo token (Refresh token es también un scope offline_access)
+- Es firmado con clave asimétrica
+
+
+![](./img/jwtio.png)
+
+## ¿Y qué es un grant o flow?
+
+Es el flujo de intercambios de mensajes entre el Authorization Server y el Client para obtener un Access Token
+
+- Client Credentials: Para robots
+- Implicit: Con redirección, interactivo
+- Code / Code + PKCE
+- Resource owner
+- Device
+- Hybrid
+
+## Terminología
+
+- Client: Quien quiere acceder al recurso
+- Resource:
+- Token: 
+- Grant: Flujo para obtener el token de acceso
+- Authorization Server
+- Resource Server
+
+## Client Credentials grant
+
+- Solo para robots (el usuario no interviene)
+- **Solo por backchannel** (el secret queda expuesto)
+- Muy común para acceso entre APIs 
+-Es conveniente utilizar solo los scopes necesarios
+
+![](./img/cc_diagramasecuencia.jpg)
+
+>      ---
+
+## Ejemplo client credential ##
+
+>      ---
+
+## Flujos con participación del usuario (front channel)
+
+![](./img/logintwitter.png)
+
+
+
+---
+
+![](./img/oauth2.png)
 Esto también es trasladable a nuestra aplicación.
+
+---
+
+![](./img/implicit_diagramasecuencia.jpg)
+
+
+### Características de implicit flow
+
+- Es interactivo
+- Es posible que el usuario tenga que indicar el concentimiento
+- Se realiza por front channel
+
+![](./img/implicit_diagramacompletojpg.png)
+
+### Desventajas
+
+- Solo para SPA (y si no tienen back)
+- Interactivo
+- El token queda almacenado en el client
+- El callbackURL es un dato clave
+- El token no se puede refrescar
+- No es recomendable
+
+>      ---
+
+## Ejemplo Implicit ##
+
+>      ---
+
+
+## Solicionando los problemas de Implicit Flow (Authorization Code Flow grant)
+
+
+![](./img/code_diagramacompleto.png)
+
+- Necesitamos sí o sí de un backchannel (backend)
+- Permite refresco 
+- Podemos solicitar un token de corta duración ya que es posible refrescar
+- Es más complejo
+- Es el método recomendado
+
+- El authorization server nos entrega un código de uso único
+- De tiempo limitado
+- Solo para el cliente que lo solicitó
+- Solo para los scopes solicitados
+- Con eso code solicito el access_token 
+- Puedo hacer refresh a partir de ahí desde backchannel
+
+## ¿Cómo hacemos para usar oAuth con interacción del usuario sino tenemos un navegador?
+
+
+# Referencias
+
+- JWT.io
+- https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
+- oAuth
+- Keycloack
