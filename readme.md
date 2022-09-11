@@ -1,7 +1,9 @@
 ![](./img/oauthlogo.png)
 
 ![](./img/ejemploaccesoyelp.png)
+
 ![](./img/ejemploaccesofacebook.png)
+
 ![](./img/ejemploaccesoria.png)
 
 # Autorización, Tokens, Flujos, oAuth y OIDC para todo el mundo
@@ -10,7 +12,7 @@
 
 @leomicheloni
 
-## La necesidad
+## Escenario
 
 Existen muchos escenarios en los que necesitamos acceder a un recurso de un tercero desde nuestra aplicación.
 Por ejemplo si estamos desarrollando una aplicación para gestionar la cuenta de Twitter de los usuarios necesitaremos acceso a la información de su cuenta, su timeline y hasta permisos para publicar en su nombre.
@@ -20,16 +22,17 @@ Por ejemplo si estamos desarrollando una aplicación para gestionar la cuenta de
 
  En el pasado ha habido métodos para lograr esto los cuales han llegado a ser incluso proveer nuestro usuario y password de Gmail para que Yelp acceda a nuestra cuenta y recupere la información de nuestros contactos.
 
- ## El problema
+ ## Necesidad
 
-El problema es encontrar un método para otorgar acceso a algún recurso propio a un tercero sin necesidad de otorgar nuestras credenciales.
-Métodos de este tipo, no solo que comprometen nuestras credenciales sino que también dan acceso a todos los recusos que tenemos acceso, el tiempo que se otorga este acceso a ilimitado y, además, finalmente quien obtenga en acceso a fines prácticos actúa como si fuera nosotros mismos ya que tiene las credenciales.
+Sería bueno encontrar un método para otorgar acceso a algún recurso propio a un tercero sin necesidad de otorgar nuestras credenciales.
+Ya que, métodos de este como al anterior, no solo que comprometen nuestras credenciales sino que también dan acceso a todos los recusos que tenemos acceso, el tiempo que se otorga este acceso a ilimitado, la aplicación no sabe del tercero y, además, finalmente quien obtenga en acceso a fines prácticos actúa como si fuera nosotros mismos ya que tiene las credenciales.
 
 El escenario ideal sería:
  - Otorgar acceso sin exponer nuestras credenciales
  - Que este acceso sea limitado a un grupo de recursos
  - Que el tiempo de duración de este acceso sea limitado
  - Que en caso de comprometerse ese método de acceso el daño sea el menor posible
+ - Que la aplicación sepa acerca de este tercero que solicita acceso
  
  ## oAuth
 
@@ -42,7 +45,7 @@ Autorización es la capacidad de acceder a un recurso, estar autorizado para acc
 
 Autenticación es la capacidad de verificar la identidad el sujeto, por ejemplo por medio de un pasaporte, en él figuran mis datos y se puede verificar quién soy ya que el documento indica datos propios.
 
-oAuth es un protocolo de autorización.
+> oAuth es un protocolo de autorización.
 
 ## Autorización
 --- 
@@ -82,11 +85,24 @@ Para el mismo caso de Yelp queriendo acceder a nuestros contactos de Gmail vamos
 ![](./img/diagramaaccesoyelpflujo.png)
 
 ---
+## Client credentiales authorization flow
+
+Esto es uno de los "flujos" o "grants" que oAuth ofrece para autorización.
 
 ![](./img/oauth1.png)
 
+> Un ejemplo podría ser Google, el mismo servidor de autorización se utiliza para diferentes servicios como Maps, Email, Drive, etc.
 
-### Esto es uno de los "flujos" o "grants" que oAuth ofrece para autorización.
+### En resumne
+ - Authorization server: quien otorga tokens y conoce a todos los clientes y recursos
+ - Scope: Recurso, conjunto de recursos, o nivel de acceso.
+ - Client: La aplicación que necesita un token para acceder a un recurso
+ - Resource server: el servidor que posee el recurso, debe conocer al Authorization server (no conoce al cliente)
+ - Token: elemento de información que provee acceso (Acceess Token) tiene scope, vencimiento e issuer.
+ - La solicitud del token se realiza sin intervención del usuario y por backchannel
+
+(por eso el año pasado cuando cayó el servicio de autenticación de google dejó de funcionar todo)
+
 
 ## ¿Y Qué es un Token?
 
@@ -97,7 +113,7 @@ Es un trozo de información, en nuestro caso vamos a utilizar un formato conocid
 - En un conjunto de información
 - Es otorgado por el Auth Server
 - Tiene 3 bloques: Header, Payload y Signature
-- Tiene un vencimiento
+- Tiene un periodo de validez
 - Indica los accesos (scopes)
 - Pueden ser Self encoded
 - Puede incluir un código para refrescar el vencimiento con un nuevo token (Refresh token es también un scope offline_access)
@@ -106,32 +122,27 @@ Es un trozo de información, en nuestro caso vamos a utilizar un formato conocid
 
 ![](./img/jwtio.png)
 
+
 ## ¿Y qué es un grant o flow?
 
 Es el flujo de intercambios de mensajes entre el Authorization Server y el Client para obtener un Access Token
 
-- Client Credentials: Para robots
-- Implicit: Con redirección, interactivo
-- Code / Code + PKCE
-- Resource owner
-- Device
+- Client Credentials: Para robots (backchannel)
+- Implicit: Con redirección, interactivo (front channel)
+- Code / Code + PKCE (front y backchannel)
+- Resource owner (frontchannel)
+- Device (frontchannel)
 - Hybrid
 
-## Terminología
-
-- Client: Quien quiere acceder al recurso
-- Resource:
-- Token: 
-- Grant: Flujo para obtener el token de acceso
-- Authorization Server
-- Resource Server
 
 ## Client Credentials grant
 
 - Solo para robots (el usuario no interviene)
 - **Solo por backchannel** (el secret queda expuesto)
 - Muy común para acceso entre APIs 
--Es conveniente utilizar solo los scopes necesarios
+- Es conveniente utilizar solo los scopes necesarios
+- Es ideal que la duración del token sea mínima
+- Soporta refresh
 
 ![](./img/cc_diagramasecuencia.jpg)
 
@@ -160,17 +171,15 @@ Esto también es trasladable a nuestra aplicación.
 ### Características de implicit flow
 
 - Es interactivo
-- Es posible que el usuario tenga que indicar el concentimiento
-- Se realiza por front channel
+- Se realiza por frontchannel
+- El callbackURL es un dato clave
 
 ![](./img/implicit_diagramacompletojpg.png)
 
 ### Desventajas
 
 - Solo para SPA (y si no tienen back)
-- Interactivo
 - El token queda almacenado en el client
-- El callbackURL es un dato clave
 - El token no se puede refrescar
 - No es recomendable
 
@@ -186,11 +195,15 @@ Esto también es trasladable a nuestra aplicación.
 
 ![](./img/code_diagramacompleto.png)
 
+## Authorization code flow
+
 - Necesitamos sí o sí de un backchannel (backend)
 - Permite refresco 
 - Podemos solicitar un token de corta duración ya que es posible refrescar
 - Es más complejo
 - Es el método recomendado
+
+### Funcionamiento
 
 - El authorization server nos entrega un código de uso único
 - De tiempo limitado
@@ -210,17 +223,12 @@ Esto también es trasladable a nuestra aplicación.
  - No es posible utilizar el código sin sabe el dato inicial
  - Éste es el método más recomendado hoy en día para este tipo de escenarios
 
-## ¿Cómo hacemos para usar oAuth con interacción del usuario sino tenemos un navegador?
 
 
 
 # ¿Y qué hay de la autenticación?
 
- - oAuth no provee un mecanismo para obtener información sobre el usuario
- - Open Id connect funciona sobre oAuth que provee varias cosas
- - Endpoints redefinidos para obtención de token, datos de usuario y discovery
- - Scopes predefinidos
-
+ 
 ## OIDC
 
 ![](./img/oidclogo.png)
@@ -234,12 +242,22 @@ Esto también es trasladable a nuestra aplicación.
 - Retorna la información sobre el resto de endpoints
 - Datos como scopes soportados
 - Agregar scope open_id, profile, email
-- Agrega un nuevo token id_token
+- Agrega un nuevo token **id_token**
 - La información extra se recibe como claims en el nuevo token
+- Se define un endpoint para información del usuario (userinfo endpoint)
 - Aparece el concent ya que compartimos datos
 
 ![](./img/concent.png)
 
+
+(ejemplo de id token)
+
+## Otros grants
+
+## ¿Cómo hacemos para usar oAuth con interacción del usuario sino tenemos un navegador?
+
+- Resource owner
+- Device
 
 # Referencias
 
