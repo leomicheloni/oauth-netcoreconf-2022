@@ -225,7 +225,9 @@ Esto también es trasladable a nuestra aplicación.
  - Éste es el método más recomendado hoy en día para este tipo de escenarios
 
 
-
+``` javascript
+code_challenge = base64urlEncode(SHA256(ASCII(code_verifier)))
+```
 
 # ¿Y qué hay de la autenticación?
 
