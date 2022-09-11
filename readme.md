@@ -93,7 +93,7 @@ Esto es uno de los "flujos" o "grants" que oAuth ofrece para autorización.
 
 > Un ejemplo podría ser Google, el mismo servidor de autorización se utiliza para diferentes servicios como Maps, Email, Drive, etc.
 
-### En resumne
+### En resumen
  - Authorization server: quien otorga tokens y conoce a todos los clientes y recursos
  - Scope: Recurso, conjunto de recursos, o nivel de acceso.
  - Client: La aplicación que necesita un token para acceder a un recurso
@@ -127,6 +127,7 @@ Es un trozo de información, en nuestro caso vamos a utilizar un formato conocid
 
 Es el flujo de intercambios de mensajes entre el Authorization Server y el Client para obtener un Access Token
 
+- Es también un scope
 - Client Credentials: Para robots (backchannel)
 - Implicit: Con redirección, interactivo (front channel)
 - Code / Code + PKCE (front y backchannel)
@@ -251,6 +252,8 @@ Esto también es trasladable a nuestra aplicación.
 
 
 (ejemplo de id token)
+
+![](./img/id_token_example.png)
 
 ## Otros grants
 
