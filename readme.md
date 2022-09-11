@@ -257,6 +257,9 @@ code_challenge = base64urlEncode(SHA256(ASCII(code_verifier)))
 
 ![](./img/id_token_example.png)
 
+
+![](./img/discoveryendpoint.png)
+
 ## Otros grants
 
 ## ¿Cómo hacemos para usar oAuth con interacción del usuario sino tenemos un navegador?
