@@ -219,8 +219,8 @@ Esto también es trasladable a nuestra aplicación.
 ![](./img/codepkce_diagramacompleto.png)
 
  - Es una extensión de code
- - Se agrega un "challenge" al solicitar el código
- - El código de retorno está tratado con un algorítmo (+ un seed o clave) acordado en el challenge
+ - Se agrega un "challenge" al solicitar el código (un código aleatorio)
+ - El código de retorno está tratado con un algorítmo (+ un seed o clave) acordado en el challenge (texto plano o sha256)
  - No es posible utilizar el código sin sabe el dato inicial
  - Éste es el método más recomendado hoy en día para este tipo de escenarios
 
@@ -266,5 +266,5 @@ Esto también es trasladable a nuestra aplicación.
 
 - JWT.io
 - https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
-- oAuth
+- [oAuth](https://oauth.net)
 - Keycloack
