@@ -281,49 +281,42 @@
 					}
 				],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
+					"mode": "urlencoded",
+					"urlencoded": [
 						{
 							"key": "grant_type",
 							"value": "refresh_token",
-							"type": "text"
+							"type": "default"
 						},
 						{
 							"key": "client_id",
-							"value": "ro.client",
-							"type": "text"
+							"value": "cc",
+							"type": "default"
 						},
 						{
 							"key": "client_secret",
-							"value": "secret",
-							"type": "text"
+							"value": "bNI03jJ3W3jHt8H3FRBq9NId3cL4wMse",
+							"type": "default"
 						},
 						{
 							"key": "refresh_token",
-							"value": "TPiOs4P7UvJofYESgeBB_-Ib3us4cDfnfxA6txZr-mw",
-							"type": "text"
-						},
-						{
-							"key": "",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "",
-							"value": "",
-							"type": "text",
-							"disabled": true
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4MDE1MzkzMS00NzRmLTQwNzktODc5MS0yY2RjNWNmZTg1ODAifQ.eyJpYXQiOjE2NjMwMTQ0MjYsImp0aSI6ImM3YTg4NGQxLThkNGUtNDc3MS05YjgyLWYyYjA3YmVkYmQwYiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4OC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDg4L3JlYWxtcy9tYXN0ZXIiLCJzdWIiOiIwNzAxNjUzNy0xYTVhLTQ3YzMtYWM5My1iZDYxZDdlZDZkNTYiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoiY2MiLCJzZXNzaW9uX3N0YXRlIjoiZTM0ZDA1YTgtZTIzZS00ZTBlLWIyYzYtMGIyYTZkNjk5MTM1Iiwic2NvcGUiOiJhcGkxIG9mZmxpbmVfYWNjZXNzIHByb2ZpbGUgZW1haWwiLCJzaWQiOiJlMzRkMDVhOC1lMjNlLTRlMGUtYjJjNi0wYjJhNmQ2OTkxMzUifQ.Ms3Y-SUhx4P_D4Lwq3Zd_kIQzgjc-qPdTsn-VOMgfUs",
+							"type": "default"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/connect/token",
+					"raw": "http://localhost:8088/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8088",
 					"path": [
-						"connect",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
 						"token"
 					],
 					"query": [
@@ -613,43 +606,42 @@
 					}
 				],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
+					"mode": "urlencoded",
+					"urlencoded": [
 						{
 							"key": "grant_type",
 							"value": "client_credentials",
-							"type": "text"
+							"type": "default"
 						},
 						{
 							"key": "client_id",
-							"value": "client.credentials",
-							"type": "text"
+							"value": "cc",
+							"type": "default"
 						},
 						{
 							"key": "client_secret",
-							"value": "client.secret",
-							"type": "text"
+							"value": "bNI03jJ3W3jHt8H3FRBq9NId3cL4wMse",
+							"type": "default"
 						},
 						{
 							"key": "scope",
-							"value": "API1",
-							"type": "text"
-						},
-						{
-							"key": "",
-							"value": "",
-							"type": "text",
-							"disabled": true
+							"value": "offline_access",
+							"type": "default"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{host}}/connect/token",
+					"raw": "http://localhost:8088/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
 					"host": [
-						"{{host}}"
+						"localhost"
 					],
+					"port": "8088",
 					"path": [
-						"connect",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
 						"token"
 					],
 					"query": [

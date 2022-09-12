@@ -153,6 +153,16 @@ Es el flujo de intercambios de mensajes entre el Authorization Server y el Clien
 
 >      ---
 
+## Refresh token
+
+Es ideal que el token tenga una duración lo más breve posible, en lugar en pedir un nuevo token cada vez que se vence el anterior podemos solicitar junto con el primer **access_token** un token que nos permita refrescar (obtener otro access_token con los mismos datos) que se llama **refresh_token**
+- El refresh token se solicita utilizando un socpe **offline_access*
+- El refresh token sí es persistido en el Authorization server
+- Esto nos permite, junto con una duración corta del access_token, que al invalidar los refresh token existentes podamos revocar el acceso
+- Para solitar un nuevo token utilizaremos el refresh_token, el secret, el client_id y el grant refresh_token
+
+![](./img/refreshtoken.png)
+
 ## Flujos con participación del usuario (front channel)
 
 ![](./img/logintwitter.png)
