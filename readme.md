@@ -9,10 +9,11 @@
 # Autorización, Tokens, Flujos, oAuth y OIDC para todo el mundo
 
 # Leonardo Micheloni
+![](./img/logo_mvp.png)
+## Tokiota Madrid
+[@leomicheloni](https://www.twitter.com/leomicheloni)
 
-@leomicheloni
-
-## Escenario
+## Problema
 
 Existen muchos escenarios en los que necesitamos acceder a un recurso de un tercero desde nuestra aplicación.
 Por ejemplo si estamos desarrollando una aplicación para gestionar la cuenta de Twitter de los usuarios necesitaremos acceso a la información de su cuenta, su timeline y hasta permisos para publicar en su nombre.
@@ -201,7 +202,7 @@ Esto también es trasladable a nuestra aplicación.
 >      ---
 
 
-## Solicionando los problemas de Implicit Flow (Authorization Code Flow grant)
+## Solucionando los problemas de Implicit Flow (Authorization Code Flow grant)
 
 
 ![](./img/code_diagramacompleto.png)
@@ -279,7 +280,9 @@ code_challenge = base64urlEncode(SHA256(ASCII(code_verifier)))
 
 # Referencias
 
-- JWT.io
-- https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
+- [JWT.io](https://jwt.io/)
+- [Microsoft Identity Platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 - [oAuth](https://oauth.net)
-- Keycloack
+- [Keycloack](https://www.keycloak.org/)
+- [oAuth Playground](https://www.oauth.com/playground)
+- [Presentación de la charla](https://1drv.ms/p/s!AsE3uoDar-nJhNkcEpsyuWBIAAqDLw?e=m6RAog)
